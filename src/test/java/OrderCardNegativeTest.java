@@ -61,8 +61,8 @@ public class OrderCardNegativeTest {
     @Test
     void shouldSendEmptyNameTest() {
         driver.get("http://localhost:9999");
-        driver.findElement(By.cssSelector("[type='tel']")).sendKeys("+79854567895");
-        driver.findElement(By.cssSelector(".checkbox__box")).click();
+        driver.findElement(By.cssSelector("[data-test-id= phone] input")).sendKeys("+79854567895");
+        driver.findElement(By.cssSelector("[data-test-id= agreement]")).click();
         driver.findElement(By.cssSelector("button")).click();
         var actualTextElement = driver.findElement(By.cssSelector("[data-test-id=name].input_invalid .input__sub"));
         var actualText = actualTextElement.getText().trim();
@@ -77,5 +77,16 @@ public class OrderCardNegativeTest {
         driver.findElement(By.cssSelector("[data-test-id= phone] input")).sendKeys("+79854567895");
         driver.findElement(By.cssSelector("button.button")).click();
         assertTrue(driver.findElement(By.cssSelector("[data-test-id=agreement].input_invalid")).isDisplayed());
+    }
+    @Test
+    void shouldSendEmptyPhoneTest() {
+        driver.get("http://localhost:9999");
+        driver.findElement(By.cssSelector("[data-test-id= name] input")).sendKeys("Петров Петр");;
+        driver.findElement(By.cssSelector("[data-test-id= agreement]")).click();
+        driver.findElement(By.cssSelector("button")).click();
+        var actualTextElement = driver.findElement(By.cssSelector("[data-test-id=phone].input_invalid .input__sub"));
+        var actualText = actualTextElement.getText().trim();
+        assertEquals("Поле обязательно для заполнения", actualText);
+        assertTrue(actualTextElement.isDisplayed());
     }
 }
